@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Enums\PaymentType;
+use App\Enums\ReferralStatus;
 use App\Models\Master;
 use App\Models\Payment;
 use App\Models\Referral;
@@ -32,25 +34,25 @@ class DatabaseSeeder extends Seeder
             Referral::create([
                 'referrer_master_id' => $masha->id,
                 'referred_master_id' => $referred->id,
-                'status' => Referral::STATUS_PENDING,
+                'status' => ReferralStatus::Pending,
             ]);
         }
 
         // Ира: оплатила картой, потом продлила.
-        Payment::create(['master_id' => $ira->id, 'amount' => 3000, 'type' => Payment::TYPE_CARD]);
-        Payment::create(['master_id' => $ira->id, 'amount' => 3000, 'type' => Payment::TYPE_CARD]);
+        Payment::create(['master_id' => $ira->id, 'amount' => 3000, 'type' => PaymentType::Card]);
+        Payment::create(['master_id' => $ira->id, 'amount' => 3000, 'type' => PaymentType::Card]);
 
         // Оля: сидит на промокоде, денег не платила.
-        Payment::create(['master_id' => $olya->id, 'amount' => 0, 'type' => Payment::TYPE_PROMO]);
+        Payment::create(['master_id' => $olya->id, 'amount' => 0, 'type' => PaymentType::Promo]);
 
         // Катя: пробный период, платежей нет.
-        Payment::create(['master_id' => $katya->id, 'amount' => 0, 'type' => Payment::TYPE_TRIAL]);
+        Payment::create(['master_id' => $katya->id, 'amount' => 0, 'type' => PaymentType::Trial]);
 
         // Даша: неудачное списание на 0, следом настоящая оплата.
-        Payment::create(['master_id' => $dasha->id, 'amount' => 0, 'type' => Payment::TYPE_CARD]);
-        Payment::create(['master_id' => $dasha->id, 'amount' => 2000, 'type' => Payment::TYPE_CARD]);
+        Payment::create(['master_id' => $dasha->id, 'amount' => 0, 'type' => PaymentType::Card]);
+        Payment::create(['master_id' => $dasha->id, 'amount' => 2000, 'type' => PaymentType::Card]);
 
         // Лена пришла без реферального кода.
-        Payment::create(['master_id' => $lena->id, 'amount' => 3000, 'type' => Payment::TYPE_SBP]);
+        Payment::create(['master_id' => $lena->id, 'amount' => 3000, 'type' => PaymentType::Sbp]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ReferralEarningStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,15 +12,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * Одна строка = вознаграждение реферера за одного приведённого мастера.
  *
- * ВНИМАНИЕ: миграции для этой таблицы в проекте нет — её нужно написать.
- * Схему выведите из того, как модель используется в коде.
+ * Статусы — см. App\Enums\ReferralEarningStatus.
  */
 class ReferralEarning extends Model
 {
     use HasFactory;
-
-    public const STATUS_PENDING = 'pending';
-    public const STATUS_PAID = 'paid';
 
     protected $fillable = [
         'referrer_master_id',
@@ -35,6 +32,7 @@ class ReferralEarning extends Model
     protected $casts = [
         'payment_amount' => 'integer',
         'amount' => 'integer',
+        'status' => ReferralEarningStatus::class,
     ];
 
     public function referrerMaster(): BelongsTo

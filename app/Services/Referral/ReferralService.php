@@ -2,6 +2,8 @@
 
 namespace App\Services\Referral;
 
+use App\Enums\ReferralProgram;
+use App\Enums\ReferralStatus;
 use App\Models\Master;
 use App\Models\Referral;
 
@@ -28,8 +30,8 @@ class ReferralService
             ],
             [
                 'referrer_master_id' => $referrer->id,
-                'program' => Referral::PROGRAM_MASTER_INVITE,
-                'status' => Referral::STATUS_PENDING,
+                'program' => ReferralProgram::MasterInvite,
+                'status' => ReferralStatus::Pending,
             ]
         );
     }

@@ -2,6 +2,8 @@
 
 namespace App\Observers;
 
+use App\Enums\ReferralEarningStatus;
+use App\Enums\ReferralStatus;
 use App\Models\Payment;
 use App\Models\Referral;
 use App\Models\ReferralEarning;
@@ -23,7 +25,7 @@ class PaymentObserver
         }
 
         $referral = Referral::where('referred_master_id', $payment->master_id)
-            ->where('status', Referral::STATUS_PENDING)
+            ->where('status', ReferralStatus::Pending)
             ->first();
 
         if (empty($referral)) {
@@ -47,9 +49,9 @@ class PaymentObserver
             'payment_amount' => $payment->amount,
             'amount' => $this->referrals->rewardAmount((int) $payment->amount),
             'percent' => (int) config('referral.percent'),
-            'status' => ReferralEarning::STATUS_PENDING,
+            'status' => ReferralEarningStatus::Pending,
         ]);
 
-        $referral->update(['status' => Referral::STATUS_REWARDED]);
+        $referral->update(['status' => ReferralStatus::Rewarded]);
     }
 }

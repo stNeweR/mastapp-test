@@ -1,5 +1,7 @@
 <?php
 
+use App\Exceptions\ReferralCodeNotFoundException;
+use App\Exceptions\SelfReferralNotAllowedException;
 use App\Http\Middleware\ResolveCurrentMaster;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,5 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(
+            fn (ReferralCodeNotFoundException $e) => response()->json(['message' => $e->getMessage()], 404)
+        );
+        $exceptions->render(
+            fn (SelfReferralNotAllowedException $e) => response()->json(['message' => $e->getMessage()], 422)
+        );
     })->create();
